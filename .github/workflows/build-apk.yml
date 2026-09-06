@@ -6,16 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  
   build:
-      - name: Make gradlew executable
-        working-directory: android
-        run: chmod +x gradlew
-        name: Build debug APK
-        runs-on: ubuntu-latest
+    name: Build debug APK
+    runs-on: ubuntu-latest
 
-        steps:
-  
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -36,20 +31,13 @@ jobs:
 
       - name: Build web app
         run: npm run build
-            - name: Sync Capacitor Android
-        run: npx cap sync android
-      - name: Make gradlew executable
-        working-directory: android
-        run: chmod +x gradlew
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        ...
-      - name: Build APK
-        working-directory: android
-        run: ./gradlew assembleDebug
 
       - name: Sync Capacitor Android
         run: npx cap sync android
+
+      - name: Make gradlew executable
+        working-directory: android
+        run: chmod +x gradlew
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
