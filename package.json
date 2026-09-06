@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'no build needed'"
+    "build": "mkdir -p www && cp index.html style.css script.js www/"
+  },
+  "dependencies": {
+    "@capacitor/cli": "^8.5.1",
+    "@capacitor/core": "^8.5.1"
   }
 }
