@@ -1,0 +1,301 @@
+<!-- <!doctype html> -->
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#070b1a" />
+    <title>العداد الذكي</title>
+    <link rel="manifest" href="manifest.webmanifest?v=15" />
+    <link rel="stylesheet" href="styles.css?v=15" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="timer-panel" aria-labelledby="app-title">
+        <header class="header">
+          <div class="brand-row">
+            <div class="brand-lockup" aria-label="Kallaa Tech">
+              <img class="app-logo" src="kallaa-tech-mark.jpg" alt="" />
+              <span class="brand-name">
+                <strong>KALLAA</strong>
+                <small>TECH</small>
+              </span>
+            </div>
+            <label class="language-label" for="languageInput">
+              <span class="visually-hidden" id="languageLabel">اللغة</span>
+              <span class="language-select-shell">
+                <svg
+                  class="language-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M3 12h18"></path>
+                  <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9"></path>
+                  <path d="M12 3c-2.4 2.5-3.6 5.5-3.6 9s1.2 6.5 3.6 9"></path>
+                </svg>
+                <select id="languageInput">
+                  <option value="ar">ع</option>
+                  <option value="en">En</option>
+                  <option value="tr">TR</option>
+                </select>
+                <svg
+                  class="language-arrow"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </span>
+            </label>
+          </div>
+          <p class="eyebrow" id="eyebrowText">العداد الذكي</p>
+          <h1 id="app-title">🔥مؤقت متكرر🔥</h1>
+          <p class="subhead" id="subheadText">
+            كل دورة تنتهي بتنبيه قصير ثم يبدأ العد من جديد.
+          </p>
+        </header>
+
+        <section class="timer-face" aria-live="polite">
+          <svg class="progress-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="track" cx="60" cy="60" r="52"></circle>
+            <circle
+              class="progress"
+              id="progressCircle"
+              cx="60"
+              cy="60"
+              r="52"
+            ></circle>
+          </svg>
+          <div class="timer-readout">
+            <span id="mainTime">05:00</span>
+            <small id="modeText">جاهز</small>
+          </div>
+        </section>
+
+        <section class="stats" aria-label="إحصائيات الدورات">
+          <div>
+            <span id="completedCount">0</span>
+            <small id="completedLabel">مكتمل</small>
+          </div>
+          <div>
+            <span id="targetCountText">10</span>
+            <small id="targetLabel">الهدف</small>
+          </div>
+          <div>
+            <span id="remainingCount">10</span>
+            <small id="remainingLabel">المتبقي</small>
+          </div>
+        </section>
+
+        <div class="pieces" id="pieces" aria-label="قطع التقدم"></div>
+
+        <form class="settings" id="settingsForm">
+          <label>
+            <span id="durationLabel">مدة العد</span>
+            <div class="inline-inputs">
+              <input
+                id="minutesInput"
+                type="number"
+                min="0"
+                max="180"
+                value="5"
+                inputmode="numeric"
+              />
+              <span id="minutesLabel">دقيقة</span>
+              <input
+                id="secondsInput"
+                type="number"
+                min="0"
+                max="59"
+                value="0"
+                inputmode="numeric"
+              />
+              <span id="secondsLabel">ثانية</span>
+            </div>
+          </label>
+
+          <label>
+            <span id="ringDurationLabel">مدة صوت التنبيه</span>
+            <select id="ringSecondsInput">
+              <option value="3" id="ring3Option">3 ثواني</option>
+              <option value="5" id="ring5Option" selected>5 ثواني</option>
+              <option value="10" id="ring10Option">10 ثواني</option>
+              <option value="15" id="ring15Option">15 ثانية</option>
+            </select>
+          </label>
+
+          <label>
+            <span id="targetInputLabel">عدد القطع المطلوب</span>
+            <input
+              id="targetInput"
+              type="number"
+              min="1"
+              value="10"
+              inputmode="numeric"
+            />
+          </label>
+
+          <label>
+            <span id="toneLabel">نغمة الرنين</span>
+            <select id="toneInput">
+              <option value="classic" id="toneClassicOption">كلاسيكية</option>
+              <option value="soft" id="toneSoftOption">هادئة</option>
+              <option value="urgent" id="toneUrgentOption">قوية</option>
+            </select>
+          </label>
+        </form>
+
+        <section class="system-tools" aria-label="إعدادات النظام">
+          <button class="notify-button" type="button" id="notifyButton">
+            تفعيل الإشعارات
+          </button>
+          <button class="refresh-button" type="button" id="refreshButton">
+            تحديث
+          </button>
+          <span class="offline-badge" id="offlineStatus">متصل</span>
+        </section>
+
+        <div class="controls">
+          <button class="primary" type="button" id="startButton">بدء</button>
+          <button class="secondary" type="button" id="pauseButton" disabled>
+            إيقاف مؤقت
+          </button>
+          <button class="ghost" type="button" id="resetButton">تصفير</button>
+        </div>
+
+        <section class="message" id="message" aria-live="assertive">
+          اختر الإعدادات ثم اضغط بدء.
+        </section>
+
+        <p class="limit-note" id="limitNote">
+          يعمل بدون إنترنت بعد فتحه مرة واحدة. عند قفل الهاتف قد يوقف النظام
+          مؤقتات المتصفح؛ للحصول على رنين مضمون والهاتف مقفل تمامًا تحتاج نسخة
+          تطبيق أصلي.
+        </p>
+
+        <button
+          type="button"
+          id="aboutButton"
+          class="about-link"
+          style="
+            display: block;
+            margin: 14px auto 4px;
+            background: none;
+            border: none;
+            padding: 6px;
+            color: inherit;
+            opacity: 0.85;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.9rem;
+          "
+        >
+          من نحن
+        </button>
+      </section>
+    </main>
+
+    <div class="completion-screen" id="completionScreen" hidden>
+      <div class="completion-box">
+        <p id="completionTitle">اكتمل العدد</p>
+        <strong id="completionText">10 / 10</strong>
+        <button class="primary" type="button" id="finishButton">تم</button>
+      </div>
+    </div>
+
+    <div class="completion-screen" id="aboutScreen" hidden>
+      <div
+        class="completion-box about-box"
+        style="
+          max-width: 520px;
+          width: 92vw;
+          max-height: 82vh;
+          overflow-y: auto;
+          text-align: start;
+          line-height: 1.8;
+          gap: 10px;
+        "
+      >
+        <button
+          type="button"
+          id="aboutCloseButton"
+          class="ghost"
+          aria-label="إغلاق"
+          style="align-self: flex-end; width: auto; padding: 4px 12px"
+        >
+          ✕
+        </button>
+        <p
+          id="aboutTitle"
+          style="font-size: 1.3rem; font-weight: 700; margin: 0"
+        >
+          من نحن
+        </p>
+        <p id="aboutTagline" style="font-weight: 600; margin: 0; opacity: 0.9">
+          وقت أوضح، يوم أسهل
+        </p>
+        <p id="aboutIntro" style="margin: 0">
+          مؤقت الدورات من Kallaa Tech هو أداة بسيطة وموثوقة لمساعدتك على تنظيم
+          وقتك، دورة بعد دورة، دون تعقيد أو تشتيت.
+        </p>
+
+        <p id="aboutLead" style="margin: 10px 0 0; font-weight: 600">
+          صممناه ليبقى بسيطًا.
+        </p>
+
+        <p style="margin: 0">
+          <strong id="aboutSimplicityTitle">البساطة</strong> —
+          <span id="aboutSimplicityText"
+            >واجهة واضحة تساعدك على ضبط المؤقت والبدء بسرعة، مع إبقاء كل ما لا
+            تحتاجه بعيدًا عن طريقك.</span
+          >
+        </p>
+        <p style="margin: 0">
+          <strong id="aboutReliabilityTitle">الموثوقية</strong> —
+          <span id="aboutReliabilityText"
+            >تنبيهات صوتية ومرئية ومتابعة دقيقة للتقدم حتى تعرف دائمًا أين
+            وصلت.</span
+          >
+        </p>
+        <p style="margin: 0">
+          <strong id="aboutPrivacyTitle">الخصوصية</strong> —
+          <span id="aboutPrivacyText"
+            >لا نجمع بيانات شخصية. إعداداتك وحالة المؤقت تبقى على جهازك.</span
+          >
+        </p>
+        <p style="margin: 0">
+          <strong id="aboutAvailableTitle">متاح للجميع</strong> —
+          <span id="aboutAvailableText"
+            >تجربة مجانية بلا إعلانات مزعجة أو خطوات غير ضرورية.</span
+          >
+        </p>
+
+        <p
+          id="aboutMissionTitle"
+          style="margin: 12px 0 0; font-size: 1.05rem; font-weight: 700"
+        >
+          رسالتنا
+        </p>
+        <p id="aboutMissionText" style="margin: 0">
+          نؤمن أن التكنولوجيا الجيدة تجعل الحياة أسهل. لذلك صممنا المؤقت ليكون
+          رفيقًا يوميًا هادئًا يساعدك على التركيز وإنجاز ما بدأته.
+        </p>
+
+        <p id="aboutThanks" style="margin: 12px 0 0; opacity: 0.9">
+          شكرًا لاستخدامك مؤقت الدورات.
+        </p>
+        <p style="margin: 0">
+          <span id="aboutContactLabel">للتواصل:</span>
+          <a href="mailto:progzumrut@gmail.com">progzumrut@gmail.com</a>
+        </p>
+      </div>
+    </div>
+
+    <script src="app.js?v=16"></script>
+  </body>
+</html>

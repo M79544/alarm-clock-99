@@ -1,0 +1,30 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.jaber.cyclealarm"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.jaber.cyclealarm"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+tasks.register("syncWebAssets", Copy) {
+    from(rootProject.file("../index.html"))
+    from(rootProject.file("../styles.css"))
+    from(rootProject.file("../app.js"))
+    from(rootProject.file("../manifest.webmanifest"))
+    from(rootProject.file("../sw.js"))
+    from(rootProject.file("../icon.svg"))
+    from(rootProject.file("../kallaa-tech-logo.jpg"))
+    from(rootProject.file("../kallaa-tech-mark.jpg"))
+    into(layout.projectDirectory.dir("src/main/assets/www"))
+}
+
+preBuild.dependsOn("syncWebAssets")
