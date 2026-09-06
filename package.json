@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "build": "mkdir -p www && cp index.html styles.css app.js sw.js manifest.webmanifest icon.svg kallaa-tech-logo.JPG kallaa-tech-mark.jpg www/"
+    "build": "shx mkdir -p www && shx cp index.html styles.css app.js sw.js manifest.webmanifest icon.svg kallaa-tech-logo.JPG kallaa-tech-mark.jpg www/"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.1",
     "@capacitor/cli": "^8.5.1",
-    "@capacitor/core": "^8.5.1"
+    "@capacitor/core": "^8.5.1",
+    "@capacitor/local-notifications": "^8.3.1"
+  },
+  "devDependencies": {
+    "shx": "^0.4.0"
   }
 }

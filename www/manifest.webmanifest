@@ -1,0 +1,18 @@
+{
+  "name": "العداد الذكي ",
+  "short_name": "الدورات",
+  "start_url": ".",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#070b1a",
+  "theme_color": "#070b1a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
