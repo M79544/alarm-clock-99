@@ -72,8 +72,7 @@ const NOTIF_COMPLETE_ID = 5999; // معرف إشعار الاكتمال النه
 const MAX_SCHEDULED_CYCLES = 400; // سقف أمان لعدد الإشعارات المجدولة دفعة واحدة
 
 // الجسر إلى Capacitor Local Notifications — يعمل فقط داخل تطبيق أندرويد المبني بـ Capacitor
-const LocalNotifications =
-  window.Capacitor?.Plugins?.LocalNotifications || null;
+const LocalNotifications = window.Capacitor?.Plugins?.LocalNotifications || null;
 
 let displayTicker = null;
 let wakeLock = null;
@@ -175,8 +174,7 @@ const copy = {
     aboutReliabilityText:
       "تنبيهات صوتية ومرئية ومتابعة دقيقة للتقدم حتى تعرف دائمًا أين وصلت.",
     aboutPrivacyTitle: "الخصوصية",
-    aboutPrivacyText:
-      "لا نجمع بيانات شخصية. إعداداتك وحالة المؤقت تبقى على جهازك.",
+    aboutPrivacyText: "لا نجمع بيانات شخصية. إعداداتك وحالة المؤقت تبقى على جهازك.",
     aboutAvailableTitle: "متاح للجميع",
     aboutAvailableText: "تجربة مجانية بلا إعلانات مزعجة أو خطوات غير ضرورية.",
     aboutMissionTitle: "رسالتنا",
@@ -269,8 +267,7 @@ const copy = {
     aboutPrivacyText:
       "We don't collect personal data. Your settings and timer state stay on your device.",
     aboutAvailableTitle: "Available to everyone",
-    aboutAvailableText:
-      "A free experience with no annoying ads or unnecessary steps.",
+    aboutAvailableText: "A free experience with no annoying ads or unnecessary steps.",
     aboutMissionTitle: "Our mission",
     aboutMissionText:
       "We believe good technology makes life easier. That's why we designed the timer to be a calm daily companion that helps you focus and finish what you started.",
@@ -359,8 +356,7 @@ const copy = {
     aboutPrivacyText:
       "Kişisel veri toplamıyoruz. Ayarlarınız ve zamanlayıcı durumunuz cihazınızda kalır.",
     aboutAvailableTitle: "Herkese açık",
-    aboutAvailableText:
-      "Rahatsız edici reklamlar veya gereksiz adımlar olmadan ücretsiz bir deneyim.",
+    aboutAvailableText: "Rahatsız edici reklamlar veya gereksiz adımlar olmadan ücretsiz bir deneyim.",
     aboutMissionTitle: "Misyonumuz",
     aboutMissionText:
       "İyi teknolojinin hayatı kolaylaştırdığına inanıyoruz. Bu yüzden zamanlayıcıyı, odaklanmanıza ve başladığınızı bitirmenize yardımcı olan sakin bir günlük yoldaş olarak tasarladık.",
@@ -453,72 +449,6 @@ function loadState() {
     localStorage.removeItem(STORAGE_KEY);
   }
 }
-
-// ---------- محرك صوت الرنين (Web Audio API) ----------
-// هذا هو الصوت الفعلي الذي يُسمع أثناء بقاء التطبيق مفتوحًا في المقدمة.
-// إشعار النظام (LocalNotifications) يبقى مسؤولاً عن التنبيه لحظة قفل الشاشة أو تصغير التطبيق،
-// لكنه بطبيعته يرن مرة واحدة فقط (هذا سلوك أنظمة التشغيل وليس خطأ في الكود).
-// لجعل صوت الإشعار نفسه يمتد لعدة ثوانٍ حتى والهاتف مقفل، يلزم إرفاق ملف صوتي أصلي
-// بالمدة المطلوبة داخل مشروع أندرويد (res/raw) وتمريره عبر خاصية sound عند الجدولة —
-// وهذه خطوة على مستوى المشروع الأصلي (Android Studio) وليست ملفات ويب.
-
-let audioCtx = null;
-let ringTimeouts = [];
-
-const TONE_PATTERNS = {
-  classic: { freq: 880, beepMs: 180, gapMs: 220, wave: "square" },
-  soft: { freq: 523, beepMs: 260, gapMs: 340, wave: "sine" },
-  urgent: { freq: 1200, beepMs: 110, gapMs: 90, wave: "sawtooth" },
-};
-
-function unlockAudio() {
-  if (!audioCtx) {
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (!Ctx) return;
-    audioCtx = new Ctx();
-  }
-  if (audioCtx.state === "suspended") audioCtx.resume();
-}
-
-function playBeep(pattern, when) {
-  if (!audioCtx) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = pattern.wave;
-  osc.frequency.value = pattern.freq;
-  gain.gain.setValueAtTime(0, when);
-  gain.gain.linearRampToValueAtTime(0.35, when + 0.02);
-  gain.gain.linearRampToValueAtTime(0, when + pattern.beepMs / 1000);
-  osc.connect(gain).connect(audioCtx.destination);
-  osc.start(when);
-  osc.stop(when + pattern.beepMs / 1000 + 0.02);
-}
-
-function stopRingTone() {
-  ringTimeouts.forEach((id) => window.clearTimeout(id));
-  ringTimeouts = [];
-}
-
-// يشغّل نمط النغمة المختارة بشكل متكرر لمدة durationMs بالضبط (مدة صوت التنبيه المختارة)
-function startRingTone(toneName, durationMs) {
-  stopRingTone();
-  if (!audioCtx || durationMs <= 0) return;
-  const pattern = TONE_PATTERNS[toneName] || TONE_PATTERNS.classic;
-  const stepMs = pattern.beepMs + pattern.gapMs;
-  const beepCount = Math.max(1, Math.ceil(durationMs / stepMs));
-
-  for (let i = 0; i < beepCount; i += 1) {
-    const id = window.setTimeout(() => {
-      if (audioCtx && audioCtx.state !== "closed") {
-        playBeep(pattern, audioCtx.currentTime);
-      }
-    }, i * stepMs);
-    ringTimeouts.push(id);
-  }
-}
-
-// آخر رقم دورة شُغّل صوتها، لمنع إعادة تشغيل الصوت من الصفر في كل نبضة تحديث (كل 250ms)
-let ringToneCycleIndex = -1;
 
 // ---------- ربط ملفات الصوت الأصلية (لجعل الإشعار يرن كامل مدة الرنين حتى والشاشة مقفلة) ----------
 // ⚠️ مهم: على أندرويد 8+ صوت الإشعار مرتبط بالقناة (channel) وليس بالإشعار نفسه،
@@ -683,26 +613,16 @@ function recompute() {
     state.completed = cycleIndex;
     state.remainingMs = durationMs - withinCycle;
     state.ringRemainingMs = 0;
-    ringToneCycleIndex = -1;
-    stopRingTone();
   } else {
     state.mode = "ringing";
     state.completed = cycleIndex + 1;
     state.remainingMs = 0;
     state.ringRemainingMs = cycleMs - withinCycle;
-
-    // شغّل صوت الرنين مرة واحدة فقط عند الدخول إلى دورة رنين جديدة، لكامل مدة الرنين المختارة
-    if (ringToneCycleIndex !== cycleIndex) {
-      ringToneCycleIndex = cycleIndex;
-      startRingTone(state.tone, state.ringSeconds * 1000);
-    }
   }
 }
 
 function onEnterComplete() {
   stopDisplayTicker();
-  stopRingTone();
-  ringToneCycleIndex = -1;
   releaseWakeLock();
   startButton.disabled = false;
   pauseButton.disabled = true;
@@ -726,9 +646,7 @@ function updatePieces() {
 
 function updateDisplay() {
   const remainingSeconds =
-    state.mode === "ringing"
-      ? state.ringRemainingMs / 1000
-      : state.remainingMs / 1000;
+    state.mode === "ringing" ? state.ringRemainingMs / 1000 : state.remainingMs / 1000;
 
   const progress =
     state.mode === "ringing"
@@ -752,9 +670,7 @@ function updateDisplay() {
   if (state.mode === "complete") modeText.textContent = t("complete");
 
   startButton.textContent =
-    state.mode === "running" ||
-    state.mode === "ringing" ||
-    state.mode === "paused"
+    state.mode === "running" || state.mode === "ringing" || state.mode === "paused"
       ? t("restart")
       : t("start");
   pauseButton.textContent = state.mode === "paused" ? t("resume") : t("pause");
@@ -832,26 +748,19 @@ function applyLanguage() {
 
   // شاشة "من نحن" — تُترجم بالكامل الآن
   if (aboutButton) aboutButton.textContent = t("aboutLink");
-  if (aboutCloseButton)
-    aboutCloseButton.setAttribute("aria-label", t("aboutClose"));
+  if (aboutCloseButton) aboutCloseButton.setAttribute("aria-label", t("aboutClose"));
   if (aboutTitle) aboutTitle.textContent = t("aboutTitle");
   if (aboutTagline) aboutTagline.textContent = t("aboutTagline");
   if (aboutIntro) aboutIntro.textContent = t("aboutIntro");
   if (aboutLead) aboutLead.textContent = t("aboutLead");
-  if (aboutSimplicityTitle)
-    aboutSimplicityTitle.textContent = t("aboutSimplicityTitle");
-  if (aboutSimplicityText)
-    aboutSimplicityText.textContent = t("aboutSimplicityText");
-  if (aboutReliabilityTitle)
-    aboutReliabilityTitle.textContent = t("aboutReliabilityTitle");
-  if (aboutReliabilityText)
-    aboutReliabilityText.textContent = t("aboutReliabilityText");
+  if (aboutSimplicityTitle) aboutSimplicityTitle.textContent = t("aboutSimplicityTitle");
+  if (aboutSimplicityText) aboutSimplicityText.textContent = t("aboutSimplicityText");
+  if (aboutReliabilityTitle) aboutReliabilityTitle.textContent = t("aboutReliabilityTitle");
+  if (aboutReliabilityText) aboutReliabilityText.textContent = t("aboutReliabilityText");
   if (aboutPrivacyTitle) aboutPrivacyTitle.textContent = t("aboutPrivacyTitle");
   if (aboutPrivacyText) aboutPrivacyText.textContent = t("aboutPrivacyText");
-  if (aboutAvailableTitle)
-    aboutAvailableTitle.textContent = t("aboutAvailableTitle");
-  if (aboutAvailableText)
-    aboutAvailableText.textContent = t("aboutAvailableText");
+  if (aboutAvailableTitle) aboutAvailableTitle.textContent = t("aboutAvailableTitle");
+  if (aboutAvailableText) aboutAvailableText.textContent = t("aboutAvailableText");
   if (aboutMissionTitle) aboutMissionTitle.textContent = t("aboutMissionTitle");
   if (aboutMissionText) aboutMissionText.textContent = t("aboutMissionText");
   if (aboutThanks) aboutThanks.textContent = t("aboutThanks");
@@ -867,7 +776,6 @@ function applyLanguage() {
 
 async function startTimer() {
   readSettings();
-  unlockAudio(); // فتح مسار الصوت من داخل ضغطة زر المستخدم (مطلوب من المتصفح/الويب-فيو)
   completionScreen.hidden = true;
   await requestWakeLock();
 
@@ -877,7 +785,6 @@ async function startTimer() {
   state.completed = 0;
   state.remainingMs = state.durationSeconds * 1000;
   state.ringRemainingMs = 0;
-  ringToneCycleIndex = -1;
 
   message.textContent = t("cycle", 1, state.target);
   saveState();
@@ -893,8 +800,6 @@ async function pauseTimer() {
     const wasRinging = state.mode === "ringing";
     state.mode = "paused";
     stopDisplayTicker();
-    stopRingTone();
-    ringToneCycleIndex = -1;
     await cancelAllNotifications();
     message.textContent = wasRinging ? t("ringPaused") : t("pausedMessage");
     saveState();
@@ -918,8 +823,6 @@ async function pauseTimer() {
 
 async function resetTimer() {
   stopDisplayTicker();
-  stopRingTone();
-  ringToneCycleIndex = -1;
   await cancelAllNotifications();
   await releaseWakeLock();
   readSettings();
@@ -941,9 +844,7 @@ async function resetTimer() {
 // ثم يعيد بناء effectiveStart وجدولة الإشعارات على الإعدادات الجديدة.
 async function applySettingsPreview() {
   const wasActive =
-    state.mode === "running" ||
-    state.mode === "ringing" ||
-    state.mode === "paused";
+    state.mode === "running" || state.mode === "ringing" || state.mode === "paused";
 
   if (!wasActive) {
     readSettings();
@@ -959,8 +860,7 @@ async function applySettingsPreview() {
   const oldRingMs = state.ringSeconds * 1000;
   const prevPhase = state.mode;
   const prevCompleted = state.completed;
-  const prevRemaining =
-    prevPhase === "ringing" ? state.ringRemainingMs : state.remainingMs;
+  const prevRemaining = prevPhase === "ringing" ? state.ringRemainingMs : state.remainingMs;
   const prevPhaseTotal = prevPhase === "ringing" ? oldRingMs : oldDurationMs;
   const ratio = clamp(prevRemaining / Math.max(1, prevPhaseTotal), 0, 1);
 
@@ -974,18 +874,12 @@ async function applySettingsPreview() {
 
   const elapsedTarget =
     prevCompleted * newCycleMs +
-    (prevPhase === "ringing"
-      ? newDurationMs + (newPhaseTotal - newRemaining)
-      : newPhaseTotal - newRemaining);
+    (prevPhase === "ringing" ? newDurationMs + (newPhaseTotal - newRemaining) : newPhaseTotal - newRemaining);
 
   effectiveStart = Date.now() - elapsedTarget;
 
   if (state.mode !== "paused") {
     recompute();
-    // إذا غيّر المستخدم النغمة أو مدة الرنين وهو داخل مرحلة الرنين فعليًا، أعد تشغيل الصوت فورًا بالإعدادات الجديدة
-    if (state.mode === "ringing") {
-      startRingTone(state.tone, state.ringRemainingMs);
-    }
     await scheduleAll();
   }
 
@@ -1042,8 +936,7 @@ document.addEventListener("visibilitychange", () => {
     requestWakeLock();
     recompute();
     updateDisplay();
-    if (state.mode === "running" || state.mode === "ringing")
-      startDisplayTicker();
+    if (state.mode === "running" || state.mode === "ringing") startDisplayTicker();
   }
 });
 
@@ -1090,6 +983,7 @@ if ("serviceWorker" in navigator) {
 
   updateDisplay();
 })();
+
 
 // const mainTime = document.querySelector("#mainTime");
 // const modeText = document.querySelector("#modeText");
