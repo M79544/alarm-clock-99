@@ -1,4 +1,3 @@
-// عناصر الواجهة (نفس معرّفات HTML الأصلية)
 const mainTime = document.querySelector("#mainTime");
 const modeText = document.querySelector("#modeText");
 const languageInput = document.querySelector("#languageInput");
@@ -44,6 +43,27 @@ const completionTitle = document.querySelector("#completionTitle");
 const completionText = document.querySelector("#completionText");
 const finishButton = document.querySelector("#finishButton");
 const limitNote = document.querySelector("#limitNote");
+
+// عناصر شاشة "من نحن"
+const aboutButton = document.querySelector("#aboutButton");
+const aboutScreen = document.querySelector("#aboutScreen");
+const aboutCloseButton = document.querySelector("#aboutCloseButton");
+const aboutTitle = document.querySelector("#aboutTitle");
+const aboutTagline = document.querySelector("#aboutTagline");
+const aboutIntro = document.querySelector("#aboutIntro");
+const aboutLead = document.querySelector("#aboutLead");
+const aboutSimplicityTitle = document.querySelector("#aboutSimplicityTitle");
+const aboutSimplicityText = document.querySelector("#aboutSimplicityText");
+const aboutReliabilityTitle = document.querySelector("#aboutReliabilityTitle");
+const aboutReliabilityText = document.querySelector("#aboutReliabilityText");
+const aboutPrivacyTitle = document.querySelector("#aboutPrivacyTitle");
+const aboutPrivacyText = document.querySelector("#aboutPrivacyText");
+const aboutAvailableTitle = document.querySelector("#aboutAvailableTitle");
+const aboutAvailableText = document.querySelector("#aboutAvailableText");
+const aboutMissionTitle = document.querySelector("#aboutMissionTitle");
+const aboutMissionText = document.querySelector("#aboutMissionText");
+const aboutThanks = document.querySelector("#aboutThanks");
+const aboutContactLabel = document.querySelector("#aboutContactLabel");
 
 const STORAGE_KEY = "cycle-timer-state-v2";
 const RING_CIRCUMFERENCE = 2 * Math.PI * 52;
@@ -141,6 +161,29 @@ const copy = {
     refreshed: "تم تحديث الحالة.",
     limit:
       "يعتمد التطبيق على منبهات النظام (Local Notifications) بدل صوت المتصفح، لذا يستمر التنبيه حتى بعد قفل الشاشة. عند إعادة تشغيل الهاتف قد تُفقد المنبهات المجدولة إذا لم تُفتح التطبيق بعدها.",
+    aboutLink: "من نحن",
+    aboutClose: "إغلاق",
+    aboutTitle: "من نحن",
+    aboutTagline: "وقت أوضح، يوم أسهل",
+    aboutIntro:
+      "مؤقت الدورات من Kallaa Tech هو أداة بسيطة وموثوقة لمساعدتك على تنظيم وقتك، دورة بعد دورة، دون تعقيد أو تشتيت.",
+    aboutLead: "صممناه ليبقى بسيطًا.",
+    aboutSimplicityTitle: "البساطة",
+    aboutSimplicityText:
+      "واجهة واضحة تساعدك على ضبط المؤقت والبدء بسرعة، مع إبقاء كل ما لا تحتاجه بعيدًا عن طريقك.",
+    aboutReliabilityTitle: "الموثوقية",
+    aboutReliabilityText:
+      "تنبيهات صوتية ومرئية ومتابعة دقيقة للتقدم حتى تعرف دائمًا أين وصلت.",
+    aboutPrivacyTitle: "الخصوصية",
+    aboutPrivacyText:
+      "لا نجمع بيانات شخصية. إعداداتك وحالة المؤقت تبقى على جهازك.",
+    aboutAvailableTitle: "متاح للجميع",
+    aboutAvailableText: "تجربة مجانية بلا إعلانات مزعجة أو خطوات غير ضرورية.",
+    aboutMissionTitle: "رسالتنا",
+    aboutMissionText:
+      "نؤمن أن التكنولوجيا الجيدة تجعل الحياة أسهل. لذلك صممنا المؤقت ليكون رفيقًا يوميًا هادئًا يساعدك على التركيز وإنجاز ما بدأته.",
+    aboutThanks: "شكرًا لاستخدامك مؤقت الدورات.",
+    aboutContactLabel: "للتواصل:",
   },
   en: {
     language: "Language",
@@ -209,6 +252,30 @@ const copy = {
     refreshed: "State refreshed.",
     limit:
       "The app relies on system alarms (Local Notifications) instead of browser sound, so alerts keep firing after the screen locks. After a phone reboot, scheduled alarms may be lost until you reopen the app.",
+    aboutLink: "About us",
+    aboutClose: "Close",
+    aboutTitle: "About us",
+    aboutTagline: "Clearer time, easier day",
+    aboutIntro:
+      "Kallaa Tech's Cycle Timer is a simple, reliable tool to help you organize your time, cycle by cycle, without clutter or distraction.",
+    aboutLead: "We designed it to stay simple.",
+    aboutSimplicityTitle: "Simplicity",
+    aboutSimplicityText:
+      "A clear interface that lets you set the timer and start quickly, keeping everything you don't need out of your way.",
+    aboutReliabilityTitle: "Reliability",
+    aboutReliabilityText:
+      "Sound and visual alerts with precise progress tracking, so you always know where you stand.",
+    aboutPrivacyTitle: "Privacy",
+    aboutPrivacyText:
+      "We don't collect personal data. Your settings and timer state stay on your device.",
+    aboutAvailableTitle: "Available to everyone",
+    aboutAvailableText:
+      "A free experience with no annoying ads or unnecessary steps.",
+    aboutMissionTitle: "Our mission",
+    aboutMissionText:
+      "We believe good technology makes life easier. That's why we designed the timer to be a calm daily companion that helps you focus and finish what you started.",
+    aboutThanks: "Thank you for using Cycle Timer.",
+    aboutContactLabel: "Contact:",
   },
   tr: {
     language: "Dil",
@@ -275,6 +342,30 @@ const copy = {
     refreshed: "Durum güncellendi.",
     limit:
       "Uygulama, tarayıcı sesi yerine sistem alarmlarını (Local Notifications) kullanır; bu sayede ekran kilitliyken de uyarılar çalışır. Telefon yeniden başlatıldığında uygulamayı tekrar açana kadar zamanlanmış alarmlar kaybolabilir.",
+    aboutLink: "Hakkımızda",
+    aboutClose: "Kapat",
+    aboutTitle: "Hakkımızda",
+    aboutTagline: "Daha net zaman, daha kolay gün",
+    aboutIntro:
+      "Kallaa Tech'in Tekrarlı Zamanlayıcısı, karmaşa ve dikkat dağıtmadan zamanınızı tur tur düzenlemenize yardımcı olan basit ve güvenilir bir araçtır.",
+    aboutLead: "Basit kalması için tasarladık.",
+    aboutSimplicityTitle: "Sadelik",
+    aboutSimplicityText:
+      "Zamanlayıcıyı hızlıca ayarlayıp başlatmanızı sağlayan, ihtiyacınız olmayan her şeyi yolunuzdan uzak tutan net bir arayüz.",
+    aboutReliabilityTitle: "Güvenilirlik",
+    aboutReliabilityText:
+      "Sesli ve görsel uyarılar ile hassas ilerleme takibi sayesinde her zaman nerede olduğunuzu bilirsiniz.",
+    aboutPrivacyTitle: "Gizlilik",
+    aboutPrivacyText:
+      "Kişisel veri toplamıyoruz. Ayarlarınız ve zamanlayıcı durumunuz cihazınızda kalır.",
+    aboutAvailableTitle: "Herkese açık",
+    aboutAvailableText:
+      "Rahatsız edici reklamlar veya gereksiz adımlar olmadan ücretsiz bir deneyim.",
+    aboutMissionTitle: "Misyonumuz",
+    aboutMissionText:
+      "İyi teknolojinin hayatı kolaylaştırdığına inanıyoruz. Bu yüzden zamanlayıcıyı, odaklanmanıza ve başladığınızı bitirmenize yardımcı olan sakin bir günlük yoldaş olarak tasarladık.",
+    aboutThanks: "Tekrarlı Zamanlayıcı'yı kullandığınız için teşekkürler.",
+    aboutContactLabel: "İletişim:",
   },
 };
 
@@ -363,6 +454,88 @@ function loadState() {
   }
 }
 
+// ---------- محرك صوت الرنين (Web Audio API) ----------
+// هذا هو الصوت الفعلي الذي يُسمع أثناء بقاء التطبيق مفتوحًا في المقدمة.
+// إشعار النظام (LocalNotifications) يبقى مسؤولاً عن التنبيه لحظة قفل الشاشة أو تصغير التطبيق،
+// لكنه بطبيعته يرن مرة واحدة فقط (هذا سلوك أنظمة التشغيل وليس خطأ في الكود).
+// لجعل صوت الإشعار نفسه يمتد لعدة ثوانٍ حتى والهاتف مقفل، يلزم إرفاق ملف صوتي أصلي
+// بالمدة المطلوبة داخل مشروع أندرويد (res/raw) وتمريره عبر خاصية sound عند الجدولة —
+// وهذه خطوة على مستوى المشروع الأصلي (Android Studio) وليست ملفات ويب.
+
+let audioCtx = null;
+let ringTimeouts = [];
+
+const TONE_PATTERNS = {
+  classic: { freq: 880, beepMs: 180, gapMs: 220, wave: "square" },
+  soft: { freq: 523, beepMs: 260, gapMs: 340, wave: "sine" },
+  urgent: { freq: 1200, beepMs: 110, gapMs: 90, wave: "sawtooth" },
+};
+
+function unlockAudio() {
+  if (!audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    audioCtx = new Ctx();
+  }
+  if (audioCtx.state === "suspended") audioCtx.resume();
+}
+
+function playBeep(pattern, when) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = pattern.wave;
+  osc.frequency.value = pattern.freq;
+  gain.gain.setValueAtTime(0, when);
+  gain.gain.linearRampToValueAtTime(0.35, when + 0.02);
+  gain.gain.linearRampToValueAtTime(0, when + pattern.beepMs / 1000);
+  osc.connect(gain).connect(audioCtx.destination);
+  osc.start(when);
+  osc.stop(when + pattern.beepMs / 1000 + 0.02);
+}
+
+function stopRingTone() {
+  ringTimeouts.forEach((id) => window.clearTimeout(id));
+  ringTimeouts = [];
+}
+
+// يشغّل نمط النغمة المختارة بشكل متكرر لمدة durationMs بالضبط (مدة صوت التنبيه المختارة)
+function startRingTone(toneName, durationMs) {
+  stopRingTone();
+  if (!audioCtx || durationMs <= 0) return;
+  const pattern = TONE_PATTERNS[toneName] || TONE_PATTERNS.classic;
+  const stepMs = pattern.beepMs + pattern.gapMs;
+  const beepCount = Math.max(1, Math.ceil(durationMs / stepMs));
+
+  for (let i = 0; i < beepCount; i += 1) {
+    const id = window.setTimeout(() => {
+      if (audioCtx && audioCtx.state !== "closed") {
+        playBeep(pattern, audioCtx.currentTime);
+      }
+    }, i * stepMs);
+    ringTimeouts.push(id);
+  }
+}
+
+// آخر رقم دورة شُغّل صوتها، لمنع إعادة تشغيل الصوت من الصفر في كل نبضة تحديث (كل 250ms)
+let ringToneCycleIndex = -1;
+
+// ---------- ربط ملفات الصوت الأصلية (لجعل الإشعار يرن كامل مدة الرنين حتى والشاشة مقفلة) ----------
+// ⚠️ مهم: على أندرويد 8+ صوت الإشعار مرتبط بالقناة (channel) وليس بالإشعار نفسه،
+// والقناة بعد إنشائها أول مرة لا يمكن تغيير صوتها إطلاقًا (قيد من نظام أندرويد نفسه، وليس قيدًا في الكود).
+// لذلك ننشئ قناة منفصلة لكل توليفة (نغمة × مدة رنين) وقت تشغيل التطبيق، ونختار القناة المناسبة عند الجدولة.
+const ALARM_TONES = ["classic", "soft", "urgent"];
+const ALARM_DURATIONS = [3, 5, 10, 15];
+
+function alarmSoundFile(tone = state.tone, ringSeconds = state.ringSeconds) {
+  // اسم الملف يجب أن يطابق تمامًا الملفات الموضوعة في android/app/src/main/res/raw/
+  return `alarm_${tone}_${ringSeconds}s.wav`;
+}
+
+function channelIdFor(tone, ringSeconds) {
+  return `cycle-timer-${tone}-${ringSeconds}s`;
+}
+
 // ---------- الإشعارات (المنبه الحقيقي عبر النظام) ----------
 
 function notificationsSupported() {
@@ -407,16 +580,22 @@ async function requestNotifications() {
 
 async function ensureNotificationChannel() {
   if (!LocalNotifications?.createChannel) return;
-  try {
-    await LocalNotifications.createChannel({
-      id: "cycle-timer",
-      name: "Cycle Timer",
-      importance: 5,
-      visibility: 1,
-      vibration: true,
-    });
-  } catch {
-    // بعض المنصات (iOS/الويب) لا تدعم القنوات — يتم تجاهل الخطأ بأمان
+  for (const tone of ALARM_TONES) {
+    for (const ringSeconds of ALARM_DURATIONS) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await LocalNotifications.createChannel({
+          id: channelIdFor(tone, ringSeconds),
+          name: `Cycle Timer — ${tone} ${ringSeconds}s`,
+          importance: 5,
+          visibility: 1,
+          vibration: true,
+          sound: alarmSoundFile(tone, ringSeconds),
+        });
+      } catch {
+        // بعض المنصات (iOS/الويب) لا تدعم القنوات — يتم تجاهل الخطأ بأمان
+      }
+    }
   }
 }
 
@@ -455,7 +634,8 @@ async function scheduleAll() {
         ? t("finalNotificationBody")
         : t("cycleNotificationBody", k, state.target),
       schedule: { at: new Date(fireAt), allowWhileIdle: true },
-      channelId: "cycle-timer",
+      channelId: channelIdFor(state.tone, state.ringSeconds),
+      sound: alarmSoundFile(), // يُستخدم على iOS مباشرة؛ على أندرويد الصوت يأتي من القناة نفسها
     });
   }
 
@@ -466,7 +646,8 @@ async function scheduleAll() {
       title: t("completeNotificationTitle"),
       body: t("completeNotificationBody", state.target, state.target),
       schedule: { at: new Date(completeAt), allowWhileIdle: true },
-      channelId: "cycle-timer",
+      channelId: channelIdFor(state.tone, state.ringSeconds),
+      sound: alarmSoundFile(),
     });
   }
 
@@ -502,16 +683,26 @@ function recompute() {
     state.completed = cycleIndex;
     state.remainingMs = durationMs - withinCycle;
     state.ringRemainingMs = 0;
+    ringToneCycleIndex = -1;
+    stopRingTone();
   } else {
     state.mode = "ringing";
     state.completed = cycleIndex + 1;
     state.remainingMs = 0;
     state.ringRemainingMs = cycleMs - withinCycle;
+
+    // شغّل صوت الرنين مرة واحدة فقط عند الدخول إلى دورة رنين جديدة، لكامل مدة الرنين المختارة
+    if (ringToneCycleIndex !== cycleIndex) {
+      ringToneCycleIndex = cycleIndex;
+      startRingTone(state.tone, state.ringSeconds * 1000);
+    }
   }
 }
 
 function onEnterComplete() {
   stopDisplayTicker();
+  stopRingTone();
+  ringToneCycleIndex = -1;
   releaseWakeLock();
   startButton.disabled = false;
   pauseButton.disabled = true;
@@ -638,13 +829,45 @@ function applyLanguage() {
   finishButton.textContent = t("done");
   completionTitle.textContent = t("completionTitle");
   limitNote.textContent = t("limit");
+
+  // شاشة "من نحن" — تُترجم بالكامل الآن
+  if (aboutButton) aboutButton.textContent = t("aboutLink");
+  if (aboutCloseButton)
+    aboutCloseButton.setAttribute("aria-label", t("aboutClose"));
+  if (aboutTitle) aboutTitle.textContent = t("aboutTitle");
+  if (aboutTagline) aboutTagline.textContent = t("aboutTagline");
+  if (aboutIntro) aboutIntro.textContent = t("aboutIntro");
+  if (aboutLead) aboutLead.textContent = t("aboutLead");
+  if (aboutSimplicityTitle)
+    aboutSimplicityTitle.textContent = t("aboutSimplicityTitle");
+  if (aboutSimplicityText)
+    aboutSimplicityText.textContent = t("aboutSimplicityText");
+  if (aboutReliabilityTitle)
+    aboutReliabilityTitle.textContent = t("aboutReliabilityTitle");
+  if (aboutReliabilityText)
+    aboutReliabilityText.textContent = t("aboutReliabilityText");
+  if (aboutPrivacyTitle) aboutPrivacyTitle.textContent = t("aboutPrivacyTitle");
+  if (aboutPrivacyText) aboutPrivacyText.textContent = t("aboutPrivacyText");
+  if (aboutAvailableTitle)
+    aboutAvailableTitle.textContent = t("aboutAvailableTitle");
+  if (aboutAvailableText)
+    aboutAvailableText.textContent = t("aboutAvailableText");
+  if (aboutMissionTitle) aboutMissionTitle.textContent = t("aboutMissionTitle");
+  if (aboutMissionText) aboutMissionText.textContent = t("aboutMissionText");
+  if (aboutThanks) aboutThanks.textContent = t("aboutThanks");
+  if (aboutContactLabel) aboutContactLabel.textContent = t("aboutContactLabel");
+
   updateConnectionStatus();
+
+  // كان هذا الزر لا يتحدث فورًا عند تغيير اللغة (يبقى باللغة القديمة حتى إعادة فتح التطبيق) — تم إصلاحه هنا
+  updateNotificationButton();
 }
 
 // ---------- التحكم (بدء/إيقاف مؤقت/تصفير) ----------
 
 async function startTimer() {
   readSettings();
+  unlockAudio(); // فتح مسار الصوت من داخل ضغطة زر المستخدم (مطلوب من المتصفح/الويب-فيو)
   completionScreen.hidden = true;
   await requestWakeLock();
 
@@ -654,6 +877,7 @@ async function startTimer() {
   state.completed = 0;
   state.remainingMs = state.durationSeconds * 1000;
   state.ringRemainingMs = 0;
+  ringToneCycleIndex = -1;
 
   message.textContent = t("cycle", 1, state.target);
   saveState();
@@ -669,6 +893,8 @@ async function pauseTimer() {
     const wasRinging = state.mode === "ringing";
     state.mode = "paused";
     stopDisplayTicker();
+    stopRingTone();
+    ringToneCycleIndex = -1;
     await cancelAllNotifications();
     message.textContent = wasRinging ? t("ringPaused") : t("pausedMessage");
     saveState();
@@ -692,6 +918,8 @@ async function pauseTimer() {
 
 async function resetTimer() {
   stopDisplayTicker();
+  stopRingTone();
+  ringToneCycleIndex = -1;
   await cancelAllNotifications();
   await releaseWakeLock();
   readSettings();
@@ -754,6 +982,10 @@ async function applySettingsPreview() {
 
   if (state.mode !== "paused") {
     recompute();
+    // إذا غيّر المستخدم النغمة أو مدة الرنين وهو داخل مرحلة الرنين فعليًا، أعد تشغيل الصوت فورًا بالإعدادات الجديدة
+    if (state.mode === "ringing") {
+      startRingTone(state.tone, state.ringRemainingMs);
+    }
     await scheduleAll();
   }
 
@@ -771,6 +1003,16 @@ function changeLanguage() {
   updateDisplay();
 }
 
+// ---------- شاشة "من نحن" ----------
+
+function openAbout() {
+  if (aboutScreen) aboutScreen.hidden = false;
+}
+
+function closeAbout() {
+  if (aboutScreen) aboutScreen.hidden = true;
+}
+
 // ---------- الأحداث ----------
 
 startButton.addEventListener("click", startTimer);
@@ -784,6 +1026,9 @@ refreshButton.addEventListener("click", () => {
   message.textContent = t("refreshed");
 });
 languageInput.addEventListener("change", changeLanguage);
+
+if (aboutButton) aboutButton.addEventListener("click", openAbout);
+if (aboutCloseButton) aboutCloseButton.addEventListener("click", closeAbout);
 
 [minutesInput, secondsInput, ringSecondsInput, targetInput, toneInput].forEach(
   (input) => {
@@ -814,21 +1059,6 @@ if (LocalNotifications?.addListener) {
   LocalNotifications.addListener("localNotificationActionPerformed", () => {
     recompute();
     updateDisplay();
-  });
-}
-
-const aboutButton = document.querySelector("#aboutButton");
-const aboutScreen = document.querySelector("#aboutScreen");
-const aboutCloseButton = document.querySelector("#aboutCloseButton");
-
-if (aboutButton && aboutScreen) {
-  aboutButton.addEventListener("click", () => {
-    aboutScreen.hidden = false;
-  });
-}
-if (aboutCloseButton && aboutScreen) {
-  aboutCloseButton.addEventListener("click", () => {
-    aboutScreen.hidden = true;
   });
 }
 
