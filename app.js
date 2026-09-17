@@ -2109,11 +2109,19 @@ function stopRingingSound() {
 
 function startRingingSound() {
   stopRingingSound();
+  if (isNativeApp) return; // الرنين والاهتزاز أصبحا من الجهة الأصلية
   playBeep();
   vibrate();
   ringTimer = window.setInterval(playBeep, 850);
   vibrationTimer = window.setInterval(vibrate, 1100);
 }
+// function startRingingSound() {
+//   stopRingingSound();
+//   playBeep();
+//   vibrate();
+//   ringTimer = window.setInterval(playBeep, 850);
+//   vibrationTimer = window.setInterval(vibrate, 1100);
+// }
 
 // ---------- قفل الشاشة ----------
 async function requestWakeLock() {
@@ -2283,8 +2291,12 @@ function completeTarget() {
     t("completeNotificationTitle"),
     t("completeNotificationBody", state.completed, state.target),
   );
-  playCompleteTone();
-  vibrate();
+    if (!isNativeApp) {
+    playCompleteTone();
+    vibrate();
+  }
+  // playCompleteTone();
+  // vibrate();
   saveState();
   updateDisplay();
 }
